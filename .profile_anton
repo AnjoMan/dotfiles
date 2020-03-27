@@ -23,6 +23,7 @@ done
 
 
 # Custom Prompt
+VIRTUAL_ENV_DISABLE_PROMPT=1
 function parse_git_branch() {
     BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
     if [ "${BRANCH}" == "" ]; then
@@ -36,16 +37,14 @@ function parse_git_branch() {
 function parse_venv() {
     if [[ -n "$VIRTUAL_ENV" ]]; then
         if [[ "${VIRTUAL_ENV##*/}" == "${PWD##*/}" ]]; then
-            venv="⎆ (❋) "
+            venv="❋"
         else
-            venv="⎆ (${VIRTUAL_ENV##*/})"
+            venv="${VIRTUAL_ENV##*/}"
         fi
-        echo -e " ${venv} "
+        echo -e "⎆ (${venv}) "
     fi
 }
-
 PS1='\[$(parse_git_branch)\]\[$(parse_venv)\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-
 
 
 
