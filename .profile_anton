@@ -1,0 +1,62 @@
+if [ -f /usr/bin/neofetch ]; then neofetch; fi
+
+
+alias clear='clear; echo; toilet -f mono12 clear | lolcat; echo; echo'
+alias dev='atom . && pyenv activate ${PWD##*/} && clear'
+
+
+
+
+# disable middle click on thinkpads and most mice
+declare -a pointer_strings=(
+  "Virtual core XTEST pointer"
+  "xwayland-relative-pointer:16"
+  "xwayland-pointer:16"
+  "xwayland-relative-pointer:15"
+  "xwayland-pointer:15"
+)
+for pointer_name in "${pointer_strings[@]}"; do
+    xinput set-button-map $(xinput list --id-only "$pointer_name") 1 0 3 4 5 6 7 8 9 10 > /dev/null 2>&1
+done
+
+
+
+
+# Custom Prompt
+function parse_git_branch() {
+    BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+    if [ "${BRANCH}" == "" ]; then
+    	echo ""
+    elif [ "${BRANCH}" == "master" ]; then
+       	echo -e "⚬  "
+    else
+     	echo -e "⎇  ${BRANCH}  "
+    fi
+}
+function parse_venv() {
+    if [[ -n "$VIRTUAL_ENV" ]]; then
+        if [[ "${VIRTUAL_ENV##*/}" == "${PWD##*/}" ]]; then
+            venv="⎆ (❋) "
+        else
+            venv="⎆ (${VIRTUAL_ENV##*/})"
+        fi
+        echo -e " ${venv} "
+    fi
+}
+
+PS1='\[$(parse_git_branch)\]\[$(parse_venv)\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+
+
+
+# Python Dev stuff
+export WORKON_HOME='~/Development/.virtualenvs'
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+if command -v pyenv 1>/dev/null 2>&1; then
+  eval "$(pyenv init -)"
+fi
+eval "$(pyenv virtualenv-init -)"
+
+export PATH=$PATH:~/.julia/julia-1.2.0/bin
+#
