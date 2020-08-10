@@ -2,7 +2,7 @@ if [ -f /usr/bin/neofetch ]; then neofetch; fi
 
 
 alias clear='clear; echo; toilet -f mono12 clear | lolcat; echo; echo'
-alias dev='atom . && pyenv activate ${PWD##*/} && clear'
+alias dev='pyenv activate ${PWD##*/};  atom .;  clear'
 
 
 
