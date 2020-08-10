@@ -60,3 +60,4 @@ eval "$(pyenv virtualenv-init -)"
 
 export PATH=$PATH:~/.julia/julia-1.2.0/bin
 #
+export BETTER_EXCEPTIONS=1
