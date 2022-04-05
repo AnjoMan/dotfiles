@@ -8,13 +8,6 @@ alias dev='pyenv activate ${PWD##*/};  atom .;  clear'
 
 
 # disable middle click on thinkpads and most mice
-declare -a pointer_strings=(
-  "Virtual core XTEST pointer"
-  "xwayland-relative-pointer:16"
-  "xwayland-pointer:16"
-  "xwayland-relative-pointer:15"
-  "xwayland-pointer:15"
-)
 for pointer_name in "${pointer_strings[@]}"; do
     xinput set-button-map $(xinput list --id-only "$pointer_name") 1 0 3 4 5 6 7 8 9 10 > /dev/null 2>&1
 done
